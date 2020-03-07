@@ -1,4 +1,4 @@
 # Usage
- git clone https://github.com/ChillarAnand/Weather-on-Terminal.git
+ <li>git clone https://github.com/ChillarAnand/Weather-on-Terminal.git
  cd Weather-on-Terminal
- python weather.py
+ python weather.py</li>
