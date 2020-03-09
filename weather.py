@@ -73,10 +73,10 @@ while True:
            if user_input == 1:
                print(" ")
                city = str(input("Город: "))
+               coords = get_coords(city)
                print(" ")
                print("Получение информации о погоде ...")
                print(" ")
-               coords = get_coords(city)
                weather = get_weather(coords['lat'], coords['lon'])
                print_weather(weather, city)
     except:
