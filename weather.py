@@ -12,10 +12,7 @@ def get_coords(city):
                        params={'address': city}
                        )
     data = res.json()
-    data = data['results']
-    data = data[0]
-    data = data["geometry"]
-    data = data["location"]
+    data = (((data['results'])[0])["geometry"])["location"]
     coords = {'lat': data['lat'], 'lon': data['lng']}
     return coords
 
