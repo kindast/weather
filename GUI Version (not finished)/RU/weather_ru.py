@@ -37,6 +37,35 @@ def weather(self):
                        )
     data2 = res2.json()
     weather = data2["fact"]
+    #traslate
+    if weather["condition"] == "clear":
+        weather["condition"] = "ясно"
+    elif weather["condition"] == "cloudy":
+        weather["condition"] = "облачно с прояснениями"
+    elif weather["condition"] == "overcast":
+        weather["condition"] = "пасмурно"
+    elif weather["condition"] == "partly-cloudy":
+        weather["condition"] = "малооблачно"
+    elif weather["condition"] == "partly-cloudy-and-light-rain":
+        weather["condition"] = "небольшой дождь"
+    elif weather["condition"] == "partly-cloudy-and-rain":
+        weather["condition"] = "дождь"
+    elif weather["condition"] == "overcast-and-rain":
+        weather["condition"] = "сильный дождь"
+    elif weather["condition"] == "overcast-thunderstorms-with-rain":
+        weather["condition"] = "сильный дождь, гроза"
+    elif (weather["condition"] == "cloudy-and-light-rain") or (weather["condition"] == "overcast-and-light-rain"):
+        weather["condition"] = "небольшой дождь"
+    elif weather["condition"] == "cloudy-and-rain":
+        weather["condition"] = "дождь"
+    elif weather["condition"] == "overcast-and-wet-snow":
+        weather["condition"] = "дождь со снегом"
+    elif weather["condition"] == "partly-cloudy-and-light-snow":
+        weather["condition"] = "небольшой снег"
+    elif weather["condition"] == "partly-cloudy-and-snow":
+        weather["condition"] = "снег"
+    elif weather["condition"] == "overcast-and-wet-snow":
+        weather["condition"] = "дождь со снегом"
 
     WeatherWindow = QWidget()
 
