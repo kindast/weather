@@ -27,6 +27,7 @@ class Ui_MainWindow(object):
         self.wbtn = QPushButton(self.horizontalLayoutWidget)
         self.wbtn.setObjectName(u"wbtn")
         font = QFont()
+        font.setFamily(u"Yandex Sans Text Medium")
         font.setPointSize(20)
         font.setBold(True)
         font.setWeight(75)
