@@ -70,6 +70,7 @@ def github():
     git.setWindowTitle("Github")
     git.resize(158, 35)
     git.setMinimumSize(QSize(158, 35))
+    git.setMaximumSize(QSize(158, 35))
     git.show()
     git.exec()
 
