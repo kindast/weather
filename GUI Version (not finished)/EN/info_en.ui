@@ -390,7 +390,7 @@
     <string/>
    </property>
    <property name="pixmap">
-    <pixmap>icons/background.jpg</pixmap>
+    <pixmap>../../../../Users/kindast/Desktop/weather/GUI Version (not finished)/icons/background.jpg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
@@ -517,7 +517,7 @@
   <widget class="QLabel" name="windspeed">
    <property name="geometry">
     <rect>
-     <x>35</x>
+     <x>32</x>
      <y>110</y>
      <width>121</width>
      <height>21</height>
@@ -576,9 +576,9 @@
   <widget class="QLabel" name="speedlbl">
    <property name="geometry">
     <rect>
-     <x>152</x>
+     <x>147</x>
      <y>110</y>
-     <width>21</width>
+     <width>31</width>
      <height>20</height>
     </rect>
    </property>
@@ -626,7 +626,7 @@
     </font>
    </property>
    <property name="text">
-    <string>0</string>
+    <string>0.0</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -635,7 +635,7 @@
   <widget class="QLabel" name="mslbl">
    <property name="geometry">
     <rect>
-     <x>167</x>
+     <x>171</x>
      <y>110</y>
      <width>47</width>
      <height>20</height>
@@ -871,7 +871,7 @@
   <widget class="QLabel" name="pressure">
    <property name="geometry">
     <rect>
-     <x>97</x>
+     <x>94</x>
      <y>140</y>
      <width>91</width>
      <height>20</height>
@@ -932,7 +932,7 @@
     <rect>
      <x>183</x>
      <y>140</y>
-     <width>31</width>
+     <width>33</width>
      <height>20</height>
     </rect>
    </property>
@@ -980,7 +980,7 @@
     </font>
    </property>
    <property name="text">
-    <string>0</string>
+    <string>000</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -989,7 +989,7 @@
   <widget class="QLabel" name="mm">
    <property name="geometry">
     <rect>
-     <x>208</x>
+     <x>214</x>
      <y>140</y>
      <width>111</width>
      <height>21</height>
