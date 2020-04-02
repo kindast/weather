@@ -55,6 +55,25 @@ def weather(self):
     WeatherWindow.show()
     WeatherWindow.exec()
 
+def github():
+    git = QWidget()
+
+    font = QFont()
+    font.setFamily(u"Yandex Sans Text Medium")
+    font.setPointSize(20)
+
+    label = QLabel(git)
+    label.setText("<a href='https://github.com/kindast/weather'>Go to github</a>")
+    label.setOpenExternalLinks(True)
+    label.setFont(font)
+
+    git.setWindowTitle("Github")
+    git.resize(158, 35)
+    git.setMinimumSize(QSize(158, 35))
+    git.show()
+    git.exec()
+
 ui.wbtn.clicked.connect(weather)
+ui.gitbtn.clicked.connect(github)
 
 sys.exit(app.exec_())
