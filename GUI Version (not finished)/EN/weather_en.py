@@ -16,7 +16,7 @@ ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
 MainWindow.show()
 
-def weather():
+def weather(self):
     #Get city
     res0 = requests.get("http://ip-api.com/json?fields=country,city",
                        params={"lang": "en"}
@@ -42,12 +42,9 @@ def weather():
 
     uiw = Ui_WeatherWindow()
     uiw.setupUiw(WeatherWindow)
-
-    icon = QIcon()
-    icon.addFile(u"icons/favicon.ico", QSize(), QIcon.Normal, QIcon.Off)
-    WeatherWindow.setWindowIcon(icon)
-
     WeatherWindow.setWindowTitle(city)
+
+    uiw.citylbl.setText(QCoreApplication.translate("WeatherWindow", city, None))
 
     WeatherWindow.show()
     WeatherWindow.exec()
