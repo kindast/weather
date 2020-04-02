@@ -44,7 +44,13 @@ def weather(self):
     uiw.setupUiw(WeatherWindow)
     WeatherWindow.setWindowTitle(city)
 
-    uiw.citylbl.setText(QCoreApplication.translate("WeatherWindow", city, None))
+    uiw.citylbl.setText(city)
+    uiw.weatherlbl.setText(weather["condition"].title())
+    uiw.templbl.setText(str(weather["temp"]))
+    uiw.feelslbl.setText(str(weather["feels_like"]))
+    uiw.speedlbl.setText(str(weather["wind_speed"]))
+    uiw.humlbl.setText(str(weather["humidity"]))
+    uiw.preslbl.setText(str(weather["pressure_mm"]))
 
     WeatherWindow.show()
     WeatherWindow.exec()
