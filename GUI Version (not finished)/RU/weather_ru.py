@@ -5,6 +5,7 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QRadialGradient)
 from PySide2.QtWidgets import *
 from weather_ui_ru import Ui_MainWindow
+from info_ru import Ui_WeatherWindow
 import sys
 import requests
 
@@ -15,7 +16,7 @@ ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
 MainWindow.show()
 
-def weather():
+def weather(self):
     #Get city
     res0 = requests.get("http://ip-api.com/json?fields=country,city",
                        params={"lang": "ru"}
@@ -39,19 +40,40 @@ def weather():
 
     WeatherWindow = QWidget()
 
-    icon = QIcon()
-    icon.addFile(u"icons/favicon.ico", QSize(), QIcon.Normal, QIcon.Off)
-    WeatherWindow.setWindowIcon(icon)
+    uiw = Ui_WeatherWindow()
+    uiw.setupUiw(WeatherWindow)
     WeatherWindow.setWindowTitle(city)
 
-    bglbl = QLabel()
-    bg = QPixmap(u"icons/background.jpg")
-    bglbl.setPixmap(bg)
-    WeatherWindow.addWidget(bglbl)
+    uiw.citylbl.setText(city)
+    uiw.weatherlbl.setText(weather["condition"].title())
+    uiw.templbl.setText(str(weather["temp"]))
+    uiw.feelslbl.setText(str(weather["feels_like"]))
+    uiw.speedlbl.setText(str(weather["wind_speed"]))
+    uiw.humlbl.setText(str(weather["humidity"]))
+    uiw.preslbl.setText(str(weather["pressure_mm"]))
 
     WeatherWindow.show()
     WeatherWindow.exec()
 
+def github():
+    git = QWidget()
+
+    font = QFont()
+    font.setFamily(u"Yandex Sans Text Medium")
+    font.setPointSize(20)
+
+    label = QLabel(git)
+    label.setText("<a href='https://github.com/kindast/weather'>Перейти на Github</a>")
+    label.setOpenExternalLinks(True)
+    label.setFont(font)
+
+    git.setWindowTitle("Github")
+    git.resize(158, 35)
+    git.setMinimumSize(QSize(158, 35))
+    git.show()
+    git.exec()
+
 ui.wbtn.clicked.connect(weather)
+ui.gitbtn.clicked.connect(github)
 
 sys.exit(app.exec_())
