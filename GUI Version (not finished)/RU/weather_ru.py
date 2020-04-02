@@ -4,7 +4,7 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
                            QRadialGradient)
 from PySide2.QtWidgets import *
-from weather_ui_en import Ui_MainWindow
+from weather_ui_ru import Ui_MainWindow
 import sys
 import requests
 
@@ -18,7 +18,7 @@ MainWindow.show()
 def weather():
     #Get city
     res0 = requests.get("http://ip-api.com/json?fields=country,city",
-                       params={"lang": "en"}
+                       params={"lang": "ru"}
                        )
     data0 = res0.json()
     city = data0["city"]
@@ -42,8 +42,12 @@ def weather():
     icon = QIcon()
     icon.addFile(u"icons/favicon.ico", QSize(), QIcon.Normal, QIcon.Off)
     WeatherWindow.setWindowIcon(icon)
-
     WeatherWindow.setWindowTitle(city)
+
+    bglbl = QLabel()
+    bg = QPixmap(u"icons/background.jpg")
+    bglbl.setPixmap(bg)
+    WeatherWindow.addWidget(bglbl)
 
     WeatherWindow.show()
     WeatherWindow.exec()
