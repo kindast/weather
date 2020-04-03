@@ -85,7 +85,7 @@ class Ui_WeatherWindow(object):
         self.speedlbl = QLabel(WeatherWindow)
         self.speedlbl.setObjectName(u"speedlbl")
         self.speedlbl.setGeometry(QRect(147, 110, 31, 20))
-        self.speedlbl.setPalette(palette8)
+        self.speedlbl.setPalette(palette)
         self.speedlbl.setFont(font2)
         self.speedlbl.setAlignment(Qt.AlignCenter)
         self.mslbl = QLabel(WeatherWindow)
