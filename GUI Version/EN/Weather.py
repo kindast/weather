@@ -4,8 +4,8 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
                            QRadialGradient)
 from PySide2.QtWidgets import *
-from weather_ui_en import Ui_MainWindow
-from info_en import Ui_WeatherWindow
+from MainUI import Ui_MainWindow
+from WeatherUI import Ui_WeatherWindow
 import sys
 import requests
 
