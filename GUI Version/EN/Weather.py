@@ -36,12 +36,13 @@ def get_weather(lat, lon):
     YandexAPIkey = "0c0ec0c2-2aeb-4710-9e72-be9f4127ad6f"
     res = requests.get("https://api.weather.yandex.ru/v1/forecast/",
                        params={"lat": lat, "lon": lon,
-                               "lang": "en_US", "limit": 1},
+                               "lang": "ru_RU", "limit": 1},
                        headers={"X-Yandex-API-Key": YandexAPIkey}
                        )
     data = res.json()
     weather = data["fact"]
     return weather
+
 
 def autoweather(self):
     city = get_city()
@@ -56,11 +57,11 @@ def autoweather(self):
 
     uiw.citylbl.setText(city)
     uiw.weatherlbl.setText(weather["condition"])
-    uiw.templbl.setText(str(weather["temp"]))
-    uiw.feelslbl.setText(str(weather["feels_like"]))
-    uiw.speedlbl.setText(str(weather["wind_speed"]))
-    uiw.humlbl.setText(str(weather["humidity"]))
-    uiw.preslbl.setText(str(weather["pressure_mm"]))
+    uiw.templbl.setText(str(weather["temp"]) + "°С")
+    uiw.feelslbl.setText("Feels like: " + str(weather["feels_like"]) + "°С")
+    uiw.windspeed.setText("Wind speed: " + str(weather["wind_speed"]) + " m/s")
+    uiw.airhumidity.setText("Air humidity: " + str(weather["humidity"]) + " %")
+    uiw.pressure.setText("Pressure: " + str(weather["pressure_mm"]) + " mm Hg. Art.")
 
     WeatherWindow.show()
     WeatherWindow.exec()
@@ -79,18 +80,18 @@ def handweather(self):
 
         uiw.citylbl.setText(city)
         uiw.weatherlbl.setText(weather["condition"])
-        uiw.templbl.setText(str(weather["temp"]))
-        uiw.feelslbl.setText(str(weather["feels_like"]))
-        uiw.speedlbl.setText(str(weather["wind_speed"]))
-        uiw.humlbl.setText(str(weather["humidity"]))
-        uiw.preslbl.setText(str(weather["pressure_mm"]))
+        uiw.templbl.setText(str(weather["temp"]) + "°С")
+        uiw.feelslbl.setText("Ощущается как: " + str(weather["feels_like"]) + "°С")
+        uiw.windspeed.setText("Скорость ветра: " + str(weather["wind_speed"]) + " м/с")
+        uiw.airhumidity.setText("Влажность: " + str(weather["humidity"]) + " %")
+        uiw.pressure.setText("Давление: " + str(weather["pressure_mm"]) + " мм рт. ст.")
 
         WeatherWindow.show()
         WeatherWindow.exec()
     except IndexError:
         mbox = QMessageBox()
-        mbox.setWindowTitle("Error")
-        mbox.setText("You have incorrectly entered the city")
+        mbox.setWindowTitle("Ошибка")
+        mbox.setText("Неправильно введён город")
         mbox.show()
         mbox.exec()
 
