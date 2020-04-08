@@ -86,11 +86,11 @@ def autoweather(self):
 
     uiw.citylbl.setText(city)
     uiw.weatherlbl.setText(weather["condition"])
-    uiw.templbl.setText(str(weather["temp"]))
-    uiw.feelslbl.setText(str(weather["feels_like"]))
-    uiw.speedlbl.setText(str(weather["wind_speed"]))
-    uiw.humlbl.setText(str(weather["humidity"]))
-    uiw.preslbl.setText(str(weather["pressure_mm"]))
+    uiw.templbl.setText(str(weather["temp"]) + "°С")
+    uiw.feelslbl.setText("Ощущается как: " + str(weather["feels_like"]) + "°С")
+    uiw.windspeed.setText("Скорость ветра: " + str(weather["wind_speed"]) + " м/с")
+    uiw.airhumidity.setText("Влажность: " + str(weather["humidity"]) + " %")
+    uiw.pressure.setText("Давление: " + str(weather["pressure_mm"]) + " мм рт. ст.")
 
     WeatherWindow.show()
     WeatherWindow.exec()
@@ -109,11 +109,11 @@ def handweather(self):
 
         uiw.citylbl.setText(city)
         uiw.weatherlbl.setText(weather["condition"])
-        uiw.templbl.setText(str(weather["temp"]))
-        uiw.feelslbl.setText(str(weather["feels_like"]))
-        uiw.speedlbl.setText(str(weather["wind_speed"]))
-        uiw.humlbl.setText(str(weather["humidity"]))
-        uiw.preslbl.setText(str(weather["pressure_mm"]))
+        uiw.templbl.setText(str(weather["temp"]) + "°С")
+        uiw.feelslbl.setText("Ощущается как: " + str(weather["feels_like"]) + "°С")
+        uiw.windspeed.setText("Скорость ветра: " + str(weather["wind_speed"]) + " м/с")
+        uiw.airhumidity.setText("Влажность: " + str(weather["humidity"]) + " %")
+        uiw.pressure.setText("Давление: " + str(weather["pressure_mm"]) + " мм рт. ст.")
 
         WeatherWindow.show()
         WeatherWindow.exec()
