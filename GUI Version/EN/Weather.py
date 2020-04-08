@@ -36,7 +36,7 @@ def get_weather(lat, lon):
     YandexAPIkey = "0c0ec0c2-2aeb-4710-9e72-be9f4127ad6f"
     res = requests.get("https://api.weather.yandex.ru/v1/forecast/",
                        params={"lat": lat, "lon": lon,
-                               "lang": "ru_RU", "limit": 1},
+                               "lang": "en_US", "limit": 1},
                        headers={"X-Yandex-API-Key": YandexAPIkey}
                        )
     data = res.json()
