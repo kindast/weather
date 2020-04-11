@@ -17,6 +17,7 @@ class Ui_WeatherWindow(object):
         brush = QBrush(QColor(255, 255, 255, 255))
         brush.setStyle(Qt.SolidPattern)
         palette.setBrush(QPalette.Active, QPalette.WindowText, brush)
+        palette.setBrush(QPalette.Inactive, QPalette.WindowText, brush)
         #Font 25
         font = QFont()
         font.setFamily(u"Yandex Sans Text Medium")
