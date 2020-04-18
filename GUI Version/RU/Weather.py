@@ -24,12 +24,17 @@ def get_city():
     return data['city']
 
 def get_coords(city):
-    res = requests.get("http://www.datasciencetoolkit.org/maps/api/geocode/json",
-                       params={"address": city}
+    res = requests.get("https://geocode-maps.yandex.ru/1.x",
+                       params={"geocode": city,
+                               "apikey": "db527ae8-6405-44df-91da-5cec4d049af6",
+                               "sco": "latlong",
+                               "format": "json",
+                               "results": "1",
+                               "lang": "ru_RU"}
                        )
     data = res.json()
-    data = (((data["results"])[0])["geometry"])["location"]
-    coords = {"lat": data["lat"], "lon": data["lng"]}
+    coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
+    coords = {"lat": coords[0], "lon": coords[2]}
     return coords
 
 def get_weather(lat, lon):
@@ -73,29 +78,11 @@ def get_weather(lat, lon):
     return weather
 
 
-def autoweather(self):
+def auto_city(self):
     city = get_city()
-    coords = get_coords(city)
-    weather = get_weather(coords["lat"], coords["lon"])
+    ui.lineedit.setText(city)
 
-    WeatherWindow = QWidget()
-
-    uiw = Ui_WeatherWindow()
-    uiw.setupUiw(WeatherWindow)
-    WeatherWindow.setWindowTitle(city)
-
-    uiw.citylbl.setText(city)
-    uiw.weatherlbl.setText(weather["condition"])
-    uiw.templbl.setText(str(weather["temp"]) + "°С")
-    uiw.feelslbl.setText("Ощущается как: " + str(weather["feels_like"]) + "°С")
-    uiw.windspeed.setText("Скорость ветра: " + str(weather["wind_speed"]) + " м/с")
-    uiw.airhumidity.setText("Влажность: " + str(weather["humidity"]) + " %")
-    uiw.pressure.setText("Давление: " + str(weather["pressure_mm"]) + " мм рт. ст.")
-
-    WeatherWindow.show()
-    WeatherWindow.exec()
-
-def handweather(self):
+def weather(self):
     try:
         city = ui.lineedit.text()
         coords = get_coords(city)
@@ -120,11 +107,14 @@ def handweather(self):
     except IndexError:
         mbox = QMessageBox()
         mbox.setWindowTitle("Ошибка")
-        mbox.setText("Неправильно введён город")
+        mbox.setText("Неправильно введён город или нет подключения к Интернету")
+        icon = QIcon()
+        icon.addFile(u"icons/error.png", QSize(), QIcon.Normal, QIcon.Off)
+        mbox.setWindowIcon(icon)
         mbox.show()
         mbox.exec()
 
-ui.wbtn.clicked.connect(autoweather)
-ui.wbtnr.clicked.connect(handweather)
+ui.wbtn.clicked.connect(auto_city)
+ui.wbtnr.clicked.connect(weather)
 
 sys.exit(app.exec_())

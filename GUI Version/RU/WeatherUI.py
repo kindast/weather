@@ -12,6 +12,9 @@ class Ui_WeatherWindow(object):
         WeatherWindow.resize(400, 190)
         WeatherWindow.setMinimumSize(QSize(400, 190))
         WeatherWindow.setMaximumSize(QSize(400, 190))
+        icon = QIcon()
+        icon.addFile(u"icons/favicon.ico", QSize(), QIcon.Normal, QIcon.Off)
+        WeatherWindow.setWindowIcon(icon)
         #Palette
         palette = QPalette()
         brush = QBrush(QColor(255, 255, 255, 255))
