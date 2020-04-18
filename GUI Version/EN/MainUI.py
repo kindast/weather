@@ -5,36 +5,46 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QPixmap, QRadialGradient)
 from PySide2.QtWidgets import *
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(463, 133)
-        MainWindow.setMinimumSize(QSize(463, 67))
-        MainWindow.setMaximumSize(QSize(463, 133))
+        MainWindow.resize(463, 92)
+        MainWindow.setMinimumSize(QSize(463, 92))
+        MainWindow.setMaximumSize(QSize(463, 92))
+        #Icon
         icon = QIcon()
         icon.addFile(u"icons/favicon.ico", QSize(), QIcon.Normal, QIcon.Off)
         MainWindow.setWindowIcon(icon)
-        self.line = QFrame(MainWindow)
-        self.line.setObjectName(u"line")
-        self.line.setGeometry(QRect(-10, 50, 481, 20))
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
+        #Font 16
+        font = QFont()
+        font.setFamily(u"Yandex Sans Text")
+        font.setPointSize(16)
+        #Autolocation
         self.wbtn = QPushButton(MainWindow)
         self.wbtn.setObjectName(u"wbtn")
-        self.wbtn.setGeometry(QRect(10, 10, 441, 41))
-        font = QFont()
-        font.setFamily(u"Yandex Sans Text Medium")
-        font.setPointSize(16)
-        font.setWeight(50)
+        self.wbtn.setGeometry(QRect(380, 10, 31, 31))
         self.wbtn.setFont(font)
+        self.wbtn.setCursor(QCursor(Qt.PointingHandCursor))
+        self.wbtn.setAcceptDrops(False)
+        self.wbtn.setCheckable(False)
+        #City
         self.lineedit = QLineEdit(MainWindow)
         self.lineedit.setObjectName(u"lineedit")
-        self.lineedit.setGeometry(QRect(80, 70, 291, 21))
+        self.lineedit.setGeometry(QRect(60, 10, 351, 31))
+        self.lineedit.setFont(font)
+        self.lineedit.setFrame(True)
+        self.lineedit.setEchoMode(QLineEdit.Normal)
+        #GetWeather
         self.wbtnr = QPushButton(MainWindow)
         self.wbtnr.setObjectName(u"wbtnr")
-        self.wbtnr.setGeometry(QRect(110, 98, 231, 31))
+        self.wbtnr.setGeometry(QRect(60, 50, 351, 31))
         self.wbtnr.setFont(font)
+        self.wbtnr.setCursor(QCursor(Qt.PointingHandCursor))
+        self.lineedit.raise_()
+        self.wbtnr.raise_()
+        self.wbtn.raise_()
 
         self.retranslateUi(MainWindow)
 
@@ -42,7 +52,9 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle("Weather by kindast")
-        self.wbtn.setText("Auto location")
-        self.wbtnr.setText("Get weather")
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Weather by kindast", None))
+        self.wbtn.setText(QCoreApplication.translate("MainWindow", u"A", None))
+        self.lineedit.setText(QCoreApplication.translate("MainWindow", u"City", None))
+        self.wbtnr.setText(QCoreApplication.translate("MainWindow", u"Get weather", None))
     # retranslateUi
+

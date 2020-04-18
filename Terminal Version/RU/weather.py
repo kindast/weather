@@ -8,12 +8,17 @@ def get_city():
     return data['city']
 
 def get_coords(city):
-    res = requests.get("http://www.datasciencetoolkit.org/maps/api/geocode/json",
-                       params={"address": city}
+    res = requests.get("https://geocode-maps.yandex.ru/1.x",
+                       params={"geocode": city,
+                               "apikey": "db527ae8-6405-44df-91da-5cec4d049af6",
+                               "sco": "latlong",
+                               "format": "json",
+                               "results": "1",
+                               "lang": "ru_RU"}
                        )
     data = res.json()
-    data = (((data["results"])[0])["geometry"])["location"]
-    coords = {"lat": data["lat"], "lon": data["lng"]}
+    coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
+    coords = {"lat": coords[0], "lon": coords[2]}
     return coords
 
 def get_weather(lat, lon):
