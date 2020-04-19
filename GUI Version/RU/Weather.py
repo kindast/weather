@@ -34,7 +34,7 @@ def get_coords(city):
                        )
     data = res.json()
     coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
-    coords = {"lat": coords[0], "lon": coords[2]}
+    coords = {"lat": coords[2], "lon": coords[0]}
     return coords
 
 def get_weather(lat, lon):
