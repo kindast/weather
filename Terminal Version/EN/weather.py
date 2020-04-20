@@ -31,39 +31,35 @@ def get_weather(lat, lon):
     return data["fact"]
 
 def print_weather(weather, city):
-    print("According to Yandex.Weather in the city " + city + ":")
-    print("Weather:",weather['condition'])
-    print("Temperature:",weather['temp'],"degrees Celsius", "|" " Feels like:",weather['feels_like'],"degrees Celsius")
-    print("Wind speed:",weather['wind_speed'],"m/s")
-    print("Air humidity:",weather['humidity'],"%")
-    print("Pressure:",weather["pressure_mm"],"mm Hg.")
-    print(" ")
+    print("According to Yandex.Weather in the city " + city + ":\n"
+          "Weather:",weather['condition'] + "\n"
+          "Temperature:",weather['temp'],"degrees Celsius", "|" " Feels like:",weather['feels_like'],"degrees Celsius" + "\n"
+          "Wind speed:",weather['wind_speed'],"m/s" + "\n"
+          "Air humidity:",weather['humidity'],"%" + "\n"
+          "Pressure:",weather["pressure_mm"],"mm Hg." + "\n")
 
 while True:
  try:
-     print("[2] Auto Location")
-     print("[1] Manual input")
-     print("[0] Exit from the program")
+     print("=========================\n"
+           "[2] Auto Location\n"
+           "[1] Manual input\n"
+           "[0] Exit from the program\n"
+           "=========================")
      user_input = int(input(": "))
      if user_input == 0:
          break
      try:
            if user_input == 1:
-               print(" ")
                city = str(input("City: "))
                coords = get_coords(city)
-               print(" ")
-               print("Getting weather information ...")
-               print(" ")
+               print("\nGetting weather information ...\n")
                weather = get_weather(coords["lat"], coords["lon"])
                print_weather(weather, city)
      except:
             print("No internet connection or city name entered incorrectly")
         
      if user_input == 2:
-         print(" ")
-         print("Getting weather information for your location ...")
-         print(" ")
+         print("\nGetting weather information for your location ...\n")
          city = get_city()
          coords = get_coords(city)
          weather = get_weather(coords["lat"], coords["lon"])

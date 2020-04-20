@@ -16,12 +16,14 @@ ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
 MainWindow.show()
 
+
 def get_city():
     res = requests.get("http://ip-api.com/json?fields=country,city",
                        params={"lang": "ru"}
                        )
     data = res.json()
     return data['city']
+
 
 def get_coords(city):
     res = requests.get("https://geocode-maps.yandex.ru/1.x",
@@ -33,9 +35,11 @@ def get_coords(city):
                                "lang": "ru_RU"}
                        )
     data = res.json()
-    coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
+    coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])[
+              "GeoObject"])["Point"])["pos"].partition(" ")
     coords = {"lat": coords[2], "lon": coords[0]}
     return coords
+
 
 def get_weather(lat, lon):
     YandexAPIkey = "0c0ec0c2-2aeb-4710-9e72-be9f4127ad6f"
@@ -55,32 +59,27 @@ def get_weather(lat, lon):
         weather["condition"] = "Пасмурно"
     elif weather["condition"] == "partly-cloudy":
         weather["condition"] = "Малооблачно"
-    elif weather["condition"] == "partly-cloudy-and-light-rain":
+    elif (weather["condition"] == "partly-cloudy-and-light-rain") or (weather["condition"] == "cloudy-and-light-rain") or (weather["condition"] == "overcast-and-light-rain"):
         weather["condition"] = "Небольшой дождь"
-    elif weather["condition"] == "partly-cloudy-and-rain":
+    elif (weather["condition"] == "partly-cloudy-and-rain") or (weather["condition"] == "cloudy-and-rain"):
         weather["condition"] = "Дождь"
     elif weather["condition"] == "overcast-and-rain":
         weather["condition"] = "Сильный дождь"
     elif weather["condition"] == "overcast-thunderstorms-with-rain":
         weather["condition"] = "Сильный дождь, гроза"
-    elif (weather["condition"] == "cloudy-and-light-rain") or (weather["condition"] == "overcast-and-light-rain"):
-        weather["condition"] = "Небольшой дождь"
-    elif weather["condition"] == "cloudy-and-rain":
-        weather["condition"] = "Дождь"
     elif weather["condition"] == "overcast-and-wet-snow":
         weather["condition"] = "Дождь со снегом"
     elif weather["condition"] == "partly-cloudy-and-light-snow":
         weather["condition"] = "Небольшой снег"
     elif weather["condition"] == "partly-cloudy-and-snow":
         weather["condition"] = "Снег"
-    elif weather["condition"] == "overcast-and-wet-snow":
-        weather["condition"] = "Дождь со снегом"
     return weather
 
 
 def auto_city(self):
     city = get_city()
     ui.lineedit.setText(city)
+
 
 def weather(self):
     try:
@@ -113,6 +112,7 @@ def weather(self):
         mbox.setWindowIcon(icon)
         mbox.show()
         mbox.exec()
+
 
 ui.wbtn.clicked.connect(auto_city)
 ui.wbtnr.clicked.connect(weather)
