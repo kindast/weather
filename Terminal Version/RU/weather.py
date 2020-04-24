@@ -1,4 +1,4 @@
-import requests
+import requests, config
 
 def get_city():
     res = requests.get("http://ip-api.com/json?fields=country,city",
@@ -10,25 +10,32 @@ def get_city():
 def get_coords(city):
     res = requests.get("https://geocode-maps.yandex.ru/1.x",
                        params={"geocode": city,
-                               "apikey": "db527ae8-6405-44df-91da-5cec4d049af6",
+                               "apikey": config.GeocoderAPIKey,
                                "sco": "latlong",
                                "format": "json",
                                "results": "1",
                                "lang": "ru_RU"}
                        )
-    data = res.json()
-    coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
-    coords = {"lat": coords[2], "lon": coords[0]}
-    return coords
+    if not res.status_code == 200:
+      print("Неправильный API ключ Яндекс.Геокодера")
+      return True
+    else:
+      data = res.json()
+      coords = ((((((data["response"])["GeoObjectCollection"])["featureMember"])[0])["GeoObject"])["Point"])["pos"].partition(" ")
+      coords = {"lat": coords[2], "lon": coords[0]}
+      return coords
 
 def get_weather(lat, lon):
-    YandexAPIkey = "0c0ec0c2-2aeb-4710-9e72-be9f4127ad6f"
     res = requests.get("https://api.weather.yandex.ru/v1/forecast/",
                        params={"lat": lat, "lon": lon, "lang": "ru_RU", "limit": 1},
-                       headers={"X-Yandex-API-Key": YandexAPIkey}
+                       headers={"X-Yandex-API-Key": config.WeatherAPIKey}
                        )
-    data = res.json()
-    return data["fact"]
+    if not res.status_code == 200:
+      print("Неправильный API ключ Яндекс.Погоды")
+      return True
+    else:
+      data = res.json()
+      return data["fact"]
 
 def print_weather(weather, city):
     if weather["condition"] == "clear":
@@ -61,7 +68,7 @@ def print_weather(weather, city):
           "Давление:",weather["pressure_mm"],"мм рт. ст." + "\n")
 
 while True:
- try:
+  try:
      print("=============================================\n"
            "[2] Автоматическое определение местоположения\n"
            "[1] Ручной ввод\n"
@@ -74,17 +81,25 @@ while True:
            if user_input == 1:
                city = str(input("Город: "))
                coords = get_coords(city)
+               if coords == True:
+                break
                print("\nПолучение информации о погоде ...\n")
                weather = get_weather(coords["lat"], coords["lon"])
+               if weather == True:
+                break
                print_weather(weather, city)
-     except:
-            print("Нет подключения к Интернету или название города введено неправильно")
+     except IndexError:
+            print("Название города введено неправильно")
         
      if user_input == 2:
          print("\nПолучение информации о погоде для вашего местоположения ...\n")
          city = get_city()
          coords = get_coords(city)
+         if coords == True:
+          break
          weather = get_weather(coords["lat"], coords["lon"])
+         if weather == True:
+          break
          print_weather(weather, city)
- except:
+  except:
     print("Нет подключения к Интернету")
