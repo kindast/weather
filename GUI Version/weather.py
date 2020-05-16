@@ -4,39 +4,59 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap,
                            QRadialGradient)
 from PySide2.QtWidgets import *
-from ui import Ui_MainWindow, Ui_WeatherWindow
-import sys, config
-import requests
+from ui import MainUI, WeatherUI, SettingsUI
+import sys, requests
 
+#Config
+config = open("config.txt", mode="r")
+text = config.read()
+weatherAPI = text.partition('"')[2].partition('"')[0]
+geocoderAPI = text.partition('"')[2].partition('"')[2].partition('"')[2].partition('"')[0]
+language = text.partition('"')[2].partition('"')[2].partition('"')[2].partition('"')[2].partition('"')[2].partition('"')[0]
+config.close()
+
+#Create Application
 app = QApplication(sys.argv)
 
+#Main
 MainWindow = QWidget()
-ui = Ui_MainWindow()
-ui.setupUi(MainWindow)
+ui = MainUI()
+ui.setupMainUI(MainWindow)
 MainWindow.show()
 
+#Settings
+SettingsWindow = QWidget()
+uis = SettingsUI()
+uis.setupSettingsUI(SettingsWindow)
+
+#Weather
+WeatherWindow = QWidget()
+uiw = WeatherUI()
+uiw.setupWeatherUI(WeatherWindow)
+
+#Functions
 def get_city():
     res = requests.get("http://ip-api.com/json?fields=country,city",
-                       params={"lang": config.language}
+                       params={"lang": language}
                        )
     data = res.json()
     return data['city']
 
 def get_coords(city):
-    if config.language == "ru":
+    if language == "ru":
       lang = "ru_RU"
     else:
       lang = "en_US"
     res = requests.get("https://geocode-maps.yandex.ru/1.x",
                        params={"geocode": city,
-                               "apikey": config.GeocoderAPIKey,
+                               "apikey": geocoderAPI,
                                "sco": "latlong",
                                "format": "json",
                                "results": "1",
                                "lang": lang}
                        )
     if not res.status_code == 200:
-      if config.language == "ru":
+      if language == "ru":
         error("Неправильный API ключ Яндекс.Геокодера")
       else:
         error("Wrong API key for Yandex.Geocoder")
@@ -47,17 +67,17 @@ def get_coords(city):
       return coords
 
 def get_weather(lat, lon):
-    if config.language == "ru":
+    if language == "ru":
       lang = "ru_RU"
     else:
       lang = "en_US"
     res = requests.get("https://api.weather.yandex.ru/v1/forecast/",
                        params={"lat": lat, "lon": lon,
                                "lang": lang, "limit": 1},
-                       headers={"X-Yandex-API-Key": config.WeatherAPIKey}
+                       headers={"X-Yandex-API-Key": weatherAPI}
                        )
     if not res.status_code == 200:
-      if config.language == "ru":
+      if language == "ru":
         error("Неправильный API ключ Яндекс.Погоды")
       else:
         error("Wrong API key for Yandex.Weathers")
@@ -65,7 +85,7 @@ def get_weather(lat, lon):
         data = res.json()
         weather = data["fact"]
         #Traslate
-        if config.language == "ru":
+        if language == "ru":
           if weather["condition"] == "clear":
             weather["condition"] = "Ясно"
           elif weather["condition"] == "cloudy":
@@ -95,7 +115,7 @@ def get_weather(lat, lon):
 def error(text):
     mbox = QMessageBox()
 
-    if config.language == "ru":
+    if language == "ru":
       windowname = "Ошибка"
     else:
       windowname = "Error"
@@ -110,6 +130,41 @@ def error(text):
     mbox.show()
     mbox.exec()
 
+def save():
+    config = open("config.txt", mode="w")
+    wapi = 'weatherAPI = "' + uis.apiweather.text() + '"'
+    gapi = 'geocoderAPI = "' + uis.apigeocoder.text() + '"'
+    if uis.langbox.currentText() == "Русский":
+      lang = 'language = "ru"'
+    else:
+      lang = 'language = "en"'
+    config.write(wapi + "\n" + gapi + "\n" + lang)
+    config.close()
+    if language == "ru":
+      error("Перезагрузи программу")
+    else:
+      error("Restart the program")
+
+def settings():
+    SettingsWindow.show()
+
+    uis.apiweather.setText(weatherAPI)
+    uis.apigeocoder.setText(geocoderAPI)
+    #Icon USA
+    icon = QIcon()
+    icon.addFile(u"icons/usa.png", QSize(), QIcon.Normal, QIcon.Off)
+    #Icon Russia
+    icon1 = QIcon()
+    icon1.addFile(u"icons/russia.png", QSize(), QIcon.Normal, QIcon.Off)
+    if language == "ru":
+      uis.langbox.addItem(icon1, "Русский")
+      uis.langbox.addItem(icon, "English")
+    else:
+      uis.langbox.addItem(icon, "English")
+      uis.langbox.addItem(icon1, "Русский")
+
+    SettingsWindow.exec()
+
 def auto_city(self):
     city = get_city()
     ui.lineedit.setText(city)
@@ -120,15 +175,10 @@ def weather(self):
         coords = get_coords(city)
         weather = get_weather(coords["lat"], coords["lon"])
 
-        WeatherWindow = QWidget()
-
-        uiw = Ui_WeatherWindow()
-        uiw.setupUiw(WeatherWindow)
         WeatherWindow.setWindowTitle(city)
-
         uiw.citylbl.setText(city)
         uiw.weatherlbl.setText(weather["condition"])
-        if config.language == "ru":
+        if language == "ru":
           uiw.templbl.setText(str(weather["temp"]) + "°С")
           uiw.feelslbl.setText("Ощущается как: " + str(weather["feels_like"]) + "°С")
           uiw.windspeed.setText("Скорость ветра: " + str(weather["wind_speed"]) + " м/с")
@@ -144,12 +194,15 @@ def weather(self):
         WeatherWindow.show()
         WeatherWindow.exec()
     except IndexError:
-      if config.language == "ru":
+      if language == "ru":
         error("Неправильно введён город или нет подключения к Интернету")
       else:
         error("The city was entered incorrectly or there is no Internet connection")
 
+#Buttons
 ui.wbtn.clicked.connect(auto_city)
 ui.wbtnr.clicked.connect(weather)
+ui.setbtn.clicked.connect(settings)
+uis.savebtn.clicked.connect(save)
 
 sys.exit(app.exec_())
