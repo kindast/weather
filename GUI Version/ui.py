@@ -84,13 +84,13 @@ class MainUI(object):
     def TextMainRu(self, Main):
         Main.setWindowTitle("Weather by kindast")
         self.wbtn.setText("A")
-        self.lineedit.setText("Город")
+        self.lineedit.setPlaceholderText("Город")
         self.wbtnr.setText("Узнать погоду")
 
     def TextMainEn(self, Main):
         Main.setWindowTitle("Weather by kindast")
         self.wbtn.setText("A")
-        self.lineedit.setText("City")
+        self.lineedit.setPlaceholderText("City")
         self.wbtnr.setText("Get weather")
 
 class WeatherUI(object):
