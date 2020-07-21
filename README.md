@@ -1,7 +1,6 @@
 # Usage for terminal version
  <li>git clone https://github.com/kindast/weather.git
  <li>cd weather/Terminal Version/
- <li>cd EN/RU          Depending on your language
  <li>pip3 install requests
  <li>python3 weather.py
 
